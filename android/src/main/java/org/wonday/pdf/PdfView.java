@@ -151,6 +151,17 @@ public class PdfView extends PDFView implements OnPageChangeListener,OnLoadCompl
         Constants.Pinch.MINIMUM_ZOOM = this.minScale;
         Constants.Pinch.MAXIMUM_ZOOM = this.maxScale;
 
+        Gson gson = new Gson();
+
+        WritableMap event = Arguments.createMap();
+        event.putString("message", "pageScrolled|"+gson.toJson(positionOffset));
+        ReactContext reactContext = (ReactContext)this.getContext();
+        reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(
+            this.getId(),
+            "topChange",
+            event
+         );
+
     }
 
     @Override
